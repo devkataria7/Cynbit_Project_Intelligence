@@ -22,6 +22,9 @@ const initialState = {
   step: 0, // 0 = Intro, 1..6 = Wizard Steps, 7 = Complete
   formData: INITIAL_FORM_DATA,
   errors: {},
+  isSubmitting: false,
+  submissionError: null,
+  submissionResult: null,
 };
 
 export const ACTIONS = {
@@ -36,6 +39,9 @@ export const ACTIONS = {
   SET_ERRORS: "SET_ERRORS",
   CLEAR_ERRORS: "CLEAR_ERRORS",
   RESET_FORM: "RESET_FORM",
+  SUBMIT_START: "SUBMIT_START",
+  SUBMIT_SUCCESS: "SUBMIT_SUCCESS",
+  SUBMIT_FAILURE: "SUBMIT_FAILURE",
 };
 
 function projectIntelligenceReducer(state, action) {
@@ -147,6 +153,29 @@ function projectIntelligenceReducer(state, action) {
         errors: {},
       };
 
+    case ACTIONS.SUBMIT_START:
+      return {
+        ...state,
+        isSubmitting: true,
+        submissionError: null,
+      };
+
+    case ACTIONS.SUBMIT_SUCCESS:
+      return {
+        ...state,
+        isSubmitting: false,
+        submissionError: null,
+        submissionResult: action.payload,
+        step: 7,
+      };
+
+    case ACTIONS.SUBMIT_FAILURE:
+      return {
+        ...state,
+        isSubmitting: false,
+        submissionError: action.payload,
+      };
+
     case ACTIONS.RESET_FORM:
       return {
         ...initialState,
@@ -185,6 +214,11 @@ export function ProjectIntelligenceProvider({ children }) {
     dispatch({ type: ACTIONS.SET_ERRORS, payload: errors });
   const clearErrors = () => dispatch({ type: ACTIONS.CLEAR_ERRORS });
   const resetForm = () => dispatch({ type: ACTIONS.RESET_FORM });
+  const setSubmitting = () => dispatch({ type: ACTIONS.SUBMIT_START });
+  const setSubmissionSuccess = (result) =>
+    dispatch({ type: ACTIONS.SUBMIT_SUCCESS, payload: result });
+  const setSubmissionFailure = (error) =>
+    dispatch({ type: ACTIONS.SUBMIT_FAILURE, payload: error });
 
   const value = {
     state,
@@ -192,6 +226,9 @@ export function ProjectIntelligenceProvider({ children }) {
     step: state.step,
     formData: state.formData,
     errors: state.errors,
+    isSubmitting: state.isSubmitting,
+    submissionError: state.submissionError,
+    submissionResult: state.submissionResult,
     startDiscovery,
     goToStep,
     nextStep,
@@ -203,6 +240,9 @@ export function ProjectIntelligenceProvider({ children }) {
     setErrors,
     clearErrors,
     resetForm,
+    setSubmitting,
+    setSubmissionSuccess,
+    setSubmissionFailure,
   };
 
   return (

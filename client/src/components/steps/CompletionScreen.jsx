@@ -2,7 +2,7 @@ import { RotateCcw, FileText, CheckCircle2 } from "lucide-react";
 import { useProjectIntelligence } from "../../context/ProjectIntelligenceContext.jsx";
 
 export default function CompletionScreen() {
-  const { resetForm, goToStep } = useProjectIntelligence();
+  const { resetForm, goToStep, submissionResult } = useProjectIntelligence();
 
   return (
     <div className="w-full max-w-4xl mx-auto py-8 sm:py-12 px-4 sm:px-6">
@@ -51,16 +51,45 @@ export default function CompletionScreen() {
             <p className="text-sm sm:text-base text-[#53616A] leading-relaxed">
               Thanks for exploring the Cynbit Project Intelligence discovery
               experience. Your project blueprint and preliminary recommendations
-              were generated client-side in your browser.
+              have been recorded.
             </p>
+
+            {/* Submission Reference ID Display */}
+            {submissionResult?.inquiryId && (
+              <div
+                id="inquiry-reference-box"
+                className="w-full p-4 rounded-xl bg-[#EAF5F3] border border-[#d0e4e1] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+              >
+                <div>
+                  <span className="text-xs font-semibold text-[#0D6662] uppercase tracking-wider block">
+                    Submission Reference ID
+                  </span>
+                  <span
+                    id="inquiry-reference-id"
+                    className="font-mono text-base sm:text-lg font-bold text-[#111827]"
+                  >
+                    {submissionResult.inquiryId}
+                  </span>
+                </div>
+                {submissionResult.submittedAt && (
+                  <div className="text-xs text-[#53616A] sm:text-right">
+                    Submitted:{" "}
+                    {new Date(submissionResult.submittedAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Prototype Disclosure Note */}
             <div className="p-3.5 rounded-xl bg-[#F7FAF9] border border-[#E4EAE9] text-xs text-[#53616A] leading-relaxed w-full">
               <strong className="text-[#111827] font-semibold">
-                Frontend-Only Prototype:
+                Prototype Disclosure:
               </strong>{" "}
-              This is a browser assessment demonstration. No real inquiry has been
-              transmitted, saved, or submitted to Cynbit's servers.
+              This independent assessment prototype stores the submission in its
+              own demo database and is not connected to Cynbit production systems.
             </div>
 
             {/* Action Buttons */}

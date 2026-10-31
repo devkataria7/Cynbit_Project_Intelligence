@@ -1,6 +1,13 @@
-import { ArrowLeft, ArrowRight, ShieldCheck, AlertCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ShieldCheck,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 import { useProjectIntelligence } from "../../context/ProjectIntelligenceContext.jsx";
 import { CONTACT_FIELDS } from "../../config/cynbit-form-config.js";
+import { submitInquiry } from "../../services/inquiryApi.js";
 
 const FIELD_PLACEHOLDERS = {
   name: "e.g. Alex Rivera",
@@ -16,12 +23,17 @@ export default function Step6Contact() {
     updateField,
     setErrors,
     clearErrors,
-    nextStep,
     prevStep,
+    isSubmitting,
+    submissionError,
+    setSubmitting,
+    setSubmissionSuccess,
+    setSubmissionFailure,
   } = useProjectIntelligence();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     if (e) e.preventDefault();
+    if (isSubmitting) return;
 
     const newErrors = {};
     const nameVal = (formData.name || "").trim();
@@ -43,13 +55,20 @@ export default function Step6Contact() {
     }
 
     clearErrors();
+    setSubmitting();
 
-    /**
-     * Isolated submission boundary:
-     * In a future production phase, this handler can dispatch to a backend API.
-     * Currently transitions to the local frontend completion state.
-     */
-    nextStep();
+    try {
+      const response = await submitInquiry(formData);
+      setSubmissionSuccess(response.data);
+    } catch (err) {
+      if (err.fieldErrors && Object.keys(err.fieldErrors).length > 0) {
+        setErrors(err.fieldErrors);
+      }
+      setSubmissionFailure(
+        err.message ||
+          "We couldn't submit your inquiry right now. Please try again."
+      );
+    }
   };
 
   return (
@@ -70,6 +89,20 @@ export default function Step6Contact() {
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="space-y-6">
+        {/* Global Submission Error Alert */}
+        {submissionError && (
+          <div
+            role="alert"
+            className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-3"
+          >
+            <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-red-600" />
+            <div>
+              <p className="font-semibold">Submission failed</p>
+              <p className="mt-0.5 text-xs text-red-600">{submissionError}</p>
+            </div>
+          </div>
+        )}
+
         {/* Contact Fields Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
           {CONTACT_FIELDS.map((field) => {
@@ -100,7 +133,8 @@ export default function Step6Contact() {
                   value={value}
                   onChange={(e) => updateField(field.id, e.target.value)}
                   placeholder={FIELD_PLACEHOLDERS[field.id] || ""}
-                  className={`w-full rounded-xl border bg-white p-3.5 text-sm text-[#111827] placeholder-[#8C9B9E] transition-all focus:outline-none focus:ring-2 ${
+                  disabled={isSubmitting}
+                  className={`w-full rounded-xl border bg-white p-3.5 text-sm text-[#111827] placeholder-[#8C9B9E] transition-all focus:outline-none focus:ring-2 disabled:opacity-60 disabled:cursor-not-allowed ${
                     isError
                       ? "border-red-300 focus:border-red-500 focus:ring-red-100"
                       : "border-[#CBD5E1] focus:border-[#0D6662] focus:ring-[#0D6662]/20"
@@ -133,9 +167,8 @@ export default function Step6Contact() {
             <strong className="text-[#0D6662] font-bold">
               Assessment Prototype Disclosure:
             </strong>{" "}
-            This project intelligence assessment demo runs purely in your browser.
-            Submitting this form does not send, store, or transmit your contact
-            details to Cynbit or any third-party server.
+            This independent assessment prototype stores the submission in its own
+            demo database and is not connected to Cynbit production systems.
           </div>
         </div>
 
@@ -144,7 +177,8 @@ export default function Step6Contact() {
           <button
             type="button"
             onClick={prevStep}
-            className="brand-btn-secondary"
+            disabled={isSubmitting}
+            className="brand-btn-secondary disabled:opacity-60 disabled:cursor-not-allowed"
             id="wizard-back-btn"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -153,11 +187,21 @@ export default function Step6Contact() {
 
           <button
             type="submit"
-            className="brand-btn-primary"
+            disabled={isSubmitting}
+            className="brand-btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
             id="wizard-submit-btn"
           >
-            <span>Complete Project Brief</span>
-            <ArrowRight className="w-4 h-4" />
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Submitting...</span>
+              </>
+            ) : (
+              <>
+                <span>Complete Project Brief</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
           </button>
         </div>
       </form>

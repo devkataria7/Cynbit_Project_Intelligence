@@ -15,7 +15,7 @@ export default function App() {
         {/* Minimal Prototype Footer */}
         <footer className="w-full py-6 text-center text-xs text-[#53616A] border-t border-[#E4EAE9] mt-auto">
           <p>
-            Cynbit Project Intelligence • Interactive Discovery Prototype (Frontend Demo)
+            Cynbit Project Intelligence • Interactive Discovery Prototype
           </p>
         </footer>
       </div>
