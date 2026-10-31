@@ -2,6 +2,9 @@ import { useProjectIntelligence } from "../../context/ProjectIntelligenceContext
 import ProgressIndicator from "./ProgressIndicator.jsx";
 import IntroScreen from "../steps/IntroScreen.jsx";
 import Step1Services from "../steps/Step1Services.jsx";
+import Step2Situation from "../steps/Step2Situation.jsx";
+import Step3Requirements from "../steps/Step3Requirements.jsx";
+import Step4ExpectedOutcome from "../steps/Step4ExpectedOutcome.jsx";
 import StepPlaceholder from "../steps/StepPlaceholder.jsx";
 
 export default function StepContainer() {
@@ -26,6 +29,12 @@ export default function StepContainer() {
       <div className="bg-white rounded-2xl border border-[#E4EAE9] p-6 sm:p-10 shadow-sm mt-4">
         {step === 1 ? (
           <Step1Services />
+        ) : step === 2 ? (
+          <Step2Situation />
+        ) : step === 3 ? (
+          <Step3Requirements />
+        ) : step === 4 ? (
+          <Step4ExpectedOutcome />
         ) : (
           <StepPlaceholder stepNumber={step} />
         )}
