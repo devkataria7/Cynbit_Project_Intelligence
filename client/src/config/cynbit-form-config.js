@@ -1,14 +1,4 @@
-/**
- * Cynbit Project Intelligence — form content and interaction config.
- *
- * Source grounding: Cynbit's official public Services and Contact pages.
- * The descriptions and question wording are proposed UX copy for the assessment,
- * mapped to the capabilities Cynbit publicly lists.
- *
- * This file is data/configuration. React renders the card UI by mapping over
- * SERVICE_CARDS and the requirement groups; Antigravity should build the
- * presentation component around this configuration.
- */
+
 
 export const INTRO = {
   eyebrow: "PROJECT INTELLIGENCE",

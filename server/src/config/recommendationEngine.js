@@ -1,24 +1,3 @@
-/**
- * Cynbit Project Intelligence — client-side recommendation preview.
- *
- * Recommendations are derived only from the visitor's selected questionnaire
- * options and the capability mappings in cynbit-form-config.js. This module
- * does not call an API or make claims about architecture, pricing or delivery.
- *
- * Expected form state:
- * {
- *   selectedServices: ["ai-automation", "custom-it-services"],
- *   problemDescription: "...", // used when selectedServices includes "not-sure"
- *   projectStage: "planning-new-project",
- *   existingSetup: ["website-or-app", "crm-or-third-party-tools"],
- *   requirements: {
- *     "ai-automation": ["autonomous-ai-agents", "ai-stack-integration"],
- *     "custom-it-services": ["backend-systems"]
- *   },
- *   expectedOutcome: "..."
- * }
- */
-
 import {
   SERVICE_CARDS,
   CURRENT_SITUATION_QUESTIONS,
@@ -55,24 +34,24 @@ export function buildProjectBriefPreview(formData = {}) {
   const requirementGroups = isNotSure
     ? []
     : selectedServiceIds
-        .filter((serviceId) => Object.prototype.hasOwnProperty.call(REQUIREMENT_GROUPS, serviceId))
-        .map((serviceId) => {
-          const group = REQUIREMENT_GROUPS[serviceId];
-          const selectedValues = new Set(asArray(requirementSelections[serviceId]));
-          const selectedOptions = group.options.filter((option) => selectedValues.has(option.value));
+      .filter((serviceId) => Object.prototype.hasOwnProperty.call(REQUIREMENT_GROUPS, serviceId))
+      .map((serviceId) => {
+        const group = REQUIREMENT_GROUPS[serviceId];
+        const selectedValues = new Set(asArray(requirementSelections[serviceId]));
+        const selectedOptions = group.options.filter((option) => selectedValues.has(option.value));
 
-          return {
-            serviceId,
-            title: group.title,
-            question: group.question,
-            selectedOptions,
-            recommendations: selectedOptions.map((option) => ({
-              capability: option.capability,
-              basedOn: option.title,
-              explanation: option.description,
-            })),
-          };
-        });
+        return {
+          serviceId,
+          title: group.title,
+          question: group.question,
+          selectedOptions,
+          recommendations: selectedOptions.map((option) => ({
+            capability: option.capability,
+            basedOn: option.title,
+            explanation: option.description,
+          })),
+        };
+      });
 
   const recommendations = requirementGroups.flatMap((group) =>
     group.recommendations.map((item) => ({ ...item, serviceTitle: group.title }))
