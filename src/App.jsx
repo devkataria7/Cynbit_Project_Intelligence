@@ -1,10 +1,24 @@
+import { ProjectIntelligenceProvider } from "./context/ProjectIntelligenceContext.jsx";
+import Header from "./components/common/Header.jsx";
+import StepContainer from "./components/wizard/StepContainer.jsx";
 
-import React from 'react'
-
-const App = () => {
+export default function App() {
   return (
-    <div>App</div>
-  )
-}
+    <ProjectIntelligenceProvider>
+      <div className="min-h-screen flex flex-col bg-[#F7FAF9] text-[#111827]">
+        {/* Top Header Treatment */}
+        <Header />
 
-export default App
+        {/* Dynamic Wizard Body */}
+        <StepContainer />
+
+        {/* Minimal Prototype Footer */}
+        <footer className="w-full py-6 text-center text-xs text-[#53616A] border-t border-[#E4EAE9] mt-auto">
+          <p>
+            Cynbit Project Intelligence • Interactive Discovery Prototype (Frontend Demo)
+          </p>
+        </footer>
+      </div>
+    </ProjectIntelligenceProvider>
+  );
+}

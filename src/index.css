@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-teal: #0D6662;
+    --brand-teal-hover: #094E4A;
+    --brand-teal-light: #EAF5F3;
+    --brand-bg: #F7FAF9;
+    --brand-border: #E4EAE9;
+    --brand-dark: #111827;
+    --brand-muted: #53616A;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #F7FAF9;
+    color: #111827;
+    margin: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Custom utility classes for consistent brand styling */
+.brand-btn-primary {
+  background-color: #0D6662;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.brand-btn-primary:hover:not(:disabled) {
+  background-color: #094E4A;
+  box-shadow: 0 4px 12px rgba(13, 102, 98, 0.25);
+}
+
+.brand-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brand-btn-secondary {
+  background-color: #ffffff;
+  color: #53616A;
+  border: 1px solid #E4EAE9;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.brand-btn-secondary:hover {
+  color: #111827;
+  border-color: #CBD5E1;
+  background-color: #F8FAFA;
+}
