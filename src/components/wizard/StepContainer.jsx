@@ -1,6 +1,7 @@
 import { useProjectIntelligence } from "../../context/ProjectIntelligenceContext.jsx";
 import ProgressIndicator from "./ProgressIndicator.jsx";
 import IntroScreen from "../steps/IntroScreen.jsx";
+import Step1Services from "../steps/Step1Services.jsx";
 import StepPlaceholder from "../steps/StepPlaceholder.jsx";
 
 export default function StepContainer() {
@@ -24,7 +25,7 @@ export default function StepContainer() {
       {/* Step Content Card / Container */}
       <div className="bg-white rounded-2xl border border-[#E4EAE9] p-6 sm:p-10 shadow-sm mt-4">
         {step === 1 ? (
-          <StepPlaceholder stepNumber={1} />
+          <Step1Services />
         ) : (
           <StepPlaceholder stepNumber={step} />
         )}
