@@ -9,49 +9,10 @@ export default function Header() {
         {/* Brand Wordmark / Logo */}
         <button
           onClick={step > 0 ? resetForm : undefined}
-          className="flex items-center gap-2 group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0D6662] rounded-lg p-1"
+          className="hover:cursor-pointer flex items-center gap-2 group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0D6662] rounded-lg p-1"
           title={step > 0 ? "Return to Start" : "Cynbit"}
         >
-          {/* Stylized Cynbit oval logo mark */}
-          <div className="flex items-center justify-center border-2 border-[#0D6662] rounded-full px-3.5 py-1 transition-transform group-hover:scale-[1.02]">
-            <svg
-              className="w-16 h-5 text-[#0D6662]"
-              viewBox="0 0 100 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-label="Cynbit"
-            >
-              <text
-                x="6"
-                y="22"
-                fontFamily="system-ui, -apple-system, sans-serif"
-                fontSize="18"
-                fontWeight="800"
-                letterSpacing="1"
-                fill="#0D6662"
-              >
-                YN
-              </text>
-              {/* Swoosh / ribbon crossing */}
-              <path
-                d="M 38 24 C 45 10, 52 24, 60 10"
-                stroke="#0D6662"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <text
-                x="64"
-                y="22"
-                fontFamily="system-ui, -apple-system, sans-serif"
-                fontSize="18"
-                fontWeight="800"
-                letterSpacing="1"
-                fill="#0D6662"
-              >
-                BIT
-              </text>
-            </svg>
-          </div>
+          <img alt="Cynbit Logo" width="120" height="48" decoding="async" data-nimg="1" className="h-8 w-auto md:h-10" src="https://www.cynbit.in/logo.svg"></img>
         </button>
 
         {/* Minimal right side treatment consistent with PRD */}
